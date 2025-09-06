@@ -100,9 +100,12 @@ const DatabaseStatus = () => {
         </div>
 
         {status.missingBuckets && status.missingBuckets.length > 0 && (
-          <div className="mt-2 p-2 bg-yellow-50 border border-yellow-200 rounded">
-            <p className="text-sm text-yellow-800">
+          <div className="mt-2 p-3 bg-blue-50 border border-blue-200 rounded">
+            <p className="text-sm text-blue-800 mb-2">
               <strong>Missing Storage Buckets:</strong> {status.missingBuckets.join(', ')}
+            </p>
+            <p className="text-xs text-blue-700">
+              Images will be saved locally until you create these buckets in Supabase Storage.
             </p>
           </div>
         )}

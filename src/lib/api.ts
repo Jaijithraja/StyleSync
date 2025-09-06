@@ -177,6 +177,27 @@ export const itemsApi = {
 
   async uploadImage(itemId: string, file: File): Promise<string> {
     try {
+      // First, check if storage buckets exist
+      const { data: buckets, error: bucketsError } = await supabase.storage.listBuckets()
+      
+      if (bucketsError) {
+        console.error('Failed to check storage buckets:', bucketsError)
+        throw new Error('Storage not available')
+      }
+
+      const hasItemsBucket = buckets?.some(bucket => bucket.name === 'items')
+      
+      if (!hasItemsBucket) {
+        console.log('Items bucket not found, using local storage fallback')
+        // Convert file to base64 for local storage
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader()
+          reader.onload = () => resolve(reader.result as string)
+          reader.onerror = () => reject(new Error('Failed to read file'))
+          reader.readAsDataURL(file)
+        })
+      }
+
       const fileExt = file.name.split('.').pop()
       const fileName = `${itemId}-${Date.now()}.${fileExt}`
       const filePath = `items/${fileName}`
@@ -199,8 +220,14 @@ export const itemsApi = {
       console.log('Image uploaded successfully:', data.publicUrl)
       return data.publicUrl
     } catch (error) {
-      console.error('Image upload failed:', error)
-      throw new Error('Image upload failed. Please check if storage buckets are set up in Supabase.')
+      console.error('Image upload failed, using base64 fallback:', error)
+      // Fallback to base64 encoding
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader()
+        reader.onload = () => resolve(reader.result as string)
+        reader.onerror = () => reject(new Error('Failed to read file'))
+        reader.readAsDataURL(file)
+      })
     }
   }
 }

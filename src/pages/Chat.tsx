@@ -18,7 +18,7 @@ const Chat = () => {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
-      text: 'Hello! I\'m Mish Mish, your style buddy!',
+      text: 'Hello! I\'m Mish Mish, your personal style assistant! 👋✨ I\'m here to help you create amazing outfits, suggest color combinations, and make you look fabulous! What can I help you with today?',
       sender: 'ai',
       timestamp: new Date(),
     }
@@ -38,29 +38,55 @@ const Chat = () => {
     setMessages(prev => [...prev, newMessage]);
     setInputText('');
 
-    // Simulate AI response with more variety
+    // Smart AI response based on user input
     setTimeout(() => {
-      const responses = [
-        "That sounds great! I can help you with that. What's your style preference for today?",
-        "I love that idea! Let me suggest some outfit combinations for you.",
-        "Perfect! Based on your wardrobe, I think you'd look amazing in a casual-chic style.",
-        "Great choice! I can help you create the perfect look. What's the occasion?",
-        "I'm here to help you look fabulous! What kind of outfit are you thinking about?",
-        "That's a wonderful idea! Let me help you put together something stylish.",
-        "I love your style sense! Tell me more about what you're looking for.",
-        "Excellent! I can definitely help you with that. What's your favorite color today?"
-      ];
+      const userMessage = inputText.toLowerCase();
+      let response = "";
       
-      const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+      // Analyze user input and provide contextual responses
+      if (userMessage.includes('hello') || userMessage.includes('hi') || userMessage.includes('hey')) {
+        response = "Hello! I'm Mish Mish, your personal style assistant! 👋 I'm here to help you create amazing outfits. What can I help you with today?";
+      } else if (userMessage.includes('outfit') || userMessage.includes('wear') || userMessage.includes('clothes')) {
+        response = "Great! I love helping with outfits! 🎨 What's the occasion? Are you looking for something casual, formal, or something special?";
+      } else if (userMessage.includes('color') || userMessage.includes('blue') || userMessage.includes('red') || userMessage.includes('black') || userMessage.includes('white')) {
+        response = "I love that color choice! 💙 Colors can really make an outfit pop. What style are you going for with that color?";
+      } else if (userMessage.includes('work') || userMessage.includes('office') || userMessage.includes('business')) {
+        response = "Perfect for a professional look! 👔 I'd suggest pairing a nice blouse or shirt with tailored trousers. What's your workplace dress code like?";
+      } else if (userMessage.includes('date') || userMessage.includes('romantic') || userMessage.includes('dinner')) {
+        response = "Ooh, a date night! 💕 Let's create something that makes you feel confident and beautiful. What's the vibe - elegant, casual, or trendy?";
+      } else if (userMessage.includes('party') || userMessage.includes('celebration') || userMessage.includes('night out')) {
+        response = "Time to party! 🎉 Let's find something fun and stylish. Are you thinking sparkly, bold, or chic?";
+      } else if (userMessage.includes('weather') || userMessage.includes('cold') || userMessage.includes('hot') || userMessage.includes('rain')) {
+        response = "Weather is so important for outfit planning! 🌤️ Let me suggest some weather-appropriate pieces. What's the forecast like?";
+      } else if (userMessage.includes('help') || userMessage.includes('advice') || userMessage.includes('suggest')) {
+        response = "I'm here to help! 🤗 I can suggest outfit combinations, color pairings, or help you plan for any occasion. What do you need help with?";
+      } else if (userMessage.includes('thank') || userMessage.includes('thanks')) {
+        response = "You're so welcome! 😊 I love helping you look and feel amazing. Is there anything else I can help you with?";
+      } else if (userMessage.includes('cute') || userMessage.includes('pretty') || userMessage.includes('beautiful')) {
+        response = "Aww, thank you! 💖 You're going to look absolutely stunning! What style are you feeling today?";
+      } else {
+        // Default intelligent responses
+        const defaultResponses = [
+          "That's interesting! Tell me more about what you're looking for. I'd love to help you create the perfect look! ✨",
+          "I love your style thinking! Let me help you put together something amazing. What's the occasion? 🎯",
+          "Great idea! I'm here to make sure you look fabulous. What kind of vibe are you going for? 💫",
+          "I'm excited to help you! Let's create something that makes you feel confident and stylish. What's your favorite style? 🌟",
+          "That sounds wonderful! I can definitely help you with that. What colors or styles are you drawn to? 🎨",
+          "Perfect! I love helping with style decisions. What's the occasion or mood you're going for? 💃",
+          "I'm here for you! Let's make sure you look and feel amazing. What kind of outfit are you thinking about? ✨",
+          "That's a great question! I'd love to help you figure that out. What's your style personality like? 🌈"
+        ];
+        response = defaultResponses[Math.floor(Math.random() * defaultResponses.length)];
+      }
       
       const aiResponse: Message = {
         id: (Date.now() + 1).toString(),
-        text: randomResponse,
+        text: response,
         sender: 'ai',
         timestamp: new Date(),
       };
       setMessages(prev => [...prev, aiResponse]);
-    }, 1000);
+    }, 800); // Faster response time
   };
 
   return (
