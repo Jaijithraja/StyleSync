@@ -47,30 +47,52 @@ export const userApi = {
 // Categories API
 export const categoriesApi = {
   async getAll(): Promise<Category[]> {
-    const { data, error } = await supabase
-      .from('categories')
-      .select('*')
-      .order('name')
-    
-    if (error) throw error
-    return data
+    try {
+      const { data, error } = await supabase
+        .from('categories')
+        .select('*')
+        .order('name')
+      
+      if (error) {
+        console.error('Categories API error:', error)
+        throw error
+      }
+      return data || []
+    } catch (error) {
+      console.error('Failed to fetch categories:', error)
+      // Return default categories if database is not set up
+      return [
+        { id: '1', name: 'Shirts', description: 'Tops and shirts', color: '#3B82F6', icon: '👔', created_at: new Date().toISOString() },
+        { id: '2', name: 'Trousers', description: 'Pants and jeans', color: '#10B981', icon: '👖', created_at: new Date().toISOString() },
+        { id: '3', name: 'Accessories', description: 'Jewelry and accessories', color: '#8B5CF6', icon: '👜', created_at: new Date().toISOString() },
+        { id: '4', name: 'Shoes', description: 'Footwear', color: '#F59E0B', icon: '👟', created_at: new Date().toISOString() },
+      ]
+    }
   }
 }
 
 // Items API
 export const itemsApi = {
   async getAll(userId: string): Promise<Item[]> {
-    const { data, error } = await supabase
-      .from('items')
-      .select(`
-        *,
-        category:categories(*)
-      `)
-      .eq('user_id', userId)
-      .order('created_at', { ascending: false })
-    
-    if (error) throw error
-    return data
+    try {
+      const { data, error } = await supabase
+        .from('items')
+        .select(`
+          *,
+          category:categories(*)
+        `)
+        .eq('user_id', userId)
+        .order('created_at', { ascending: false })
+      
+      if (error) {
+        console.error('Items API error:', error)
+        throw error
+      }
+      return data || []
+    } catch (error) {
+      console.error('Failed to fetch items:', error)
+      return []
+    }
   },
 
   async getByCategory(userId: string, categoryId: string): Promise<Item[]> {

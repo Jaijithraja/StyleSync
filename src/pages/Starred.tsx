@@ -142,7 +142,7 @@ const Starred = () => {
                       {outfit.items?.length || 0} items
                     </p>
                   </div>
-                  
+
                   <div className="text-center mb-3">
                     <h3 className="font-semibold text-foreground text-sm mb-1">{outfit.name}</h3>
                     {outfit.occasion && (
@@ -185,7 +185,7 @@ const Starred = () => {
                       </Button>
                     </div>
                   </div>
-                </div>
+              </div>
               ))}
             </div>
           )}

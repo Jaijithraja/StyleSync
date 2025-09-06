@@ -129,15 +129,15 @@ const Catalogue = () => {
         {/* Header */}
         <header className="flex items-center justify-between p-6">
           <div className="flex items-center">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => navigate('/home')}
-              className="mr-4"
-            >
-              <ArrowLeft size={24} />
-            </Button>
-            <h1 className="text-2xl font-bold text-foreground">Catalogue</h1>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => navigate('/home')}
+            className="mr-4"
+          >
+            <ArrowLeft size={24} />
+          </Button>
+          <h1 className="text-2xl font-bold text-foreground">Catalogue</h1>
           </div>
           <Button
             onClick={() => setShowAddDialog(true)}
@@ -215,7 +215,7 @@ const Catalogue = () => {
                   : 'All Items'
                 } ({filteredItems.length})
               </h2>
-              <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-4">
                 {filteredItems.map((item) => (
                   <ItemCard
                     key={item.id}
@@ -224,8 +224,8 @@ const Catalogue = () => {
                     onDelete={handleDeleteItem}
                   />
                 ))}
-              </div>
-            </div>
+                  </div>
+                </div>
           ) : (
             <div className="text-center py-8">
               <div className="text-4xl mb-4">📦</div>
@@ -246,7 +246,7 @@ const Catalogue = () => {
               )}
             </div>
           )}
-        </div>
+          </div>
 
         {/* Add Item Dialog */}
         {user && (
