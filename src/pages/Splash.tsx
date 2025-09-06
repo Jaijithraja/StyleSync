@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import TwinklingStars from '@/components/TwinklingStars';
+import { testSupabaseConnection } from '@/lib/test-connection';
 
 const Splash = () => {
   const navigate = useNavigate();
@@ -10,6 +11,9 @@ const Splash = () => {
     const timer = setTimeout(() => {
       setShowContent(true);
     }, 500);
+
+    // Test Supabase connection
+    testSupabaseConnection();
 
     const navigationTimer = setTimeout(() => {
       navigate('/login');
