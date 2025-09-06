@@ -1,0 +1,5 @@
+[33m3457424[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m Add Supabase connection testing and debugging
+[33m6aa8b29[m Fix OAuth authentication errors - add graceful error handling
+[33m7afd4e8[m Fix Supabase schema - remove permission denied line
+[33mcf1695a[m Fix vercel.json - remove secret references
+[33m0af60cc[m Initial commit: Complete StyleSync app with Supabase backend

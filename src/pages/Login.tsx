@@ -28,14 +28,18 @@ const Login = () => {
 
     setLoading(true);
     try {
-      const { error } = await signIn(email, password);
+      const { data, error } = await signIn(email, password);
       if (error) {
         toast({
           title: "Login Failed",
           description: error.message,
           variant: "destructive",
         });
-      } else {
+      } else if (data?.user) {
+        toast({
+          title: "Success",
+          description: "Welcome back!",
+        });
         navigate('/home');
       }
     } catch (error) {

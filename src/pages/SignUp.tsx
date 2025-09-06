@@ -51,17 +51,17 @@ const SignUp = () => {
 
     setLoading(true);
     try {
-      const { error } = await signUp(formData.email, formData.password, formData.name);
+      const { data, error } = await signUp(formData.email, formData.password, formData.name);
       if (error) {
         toast({
           title: "Sign Up Failed",
           description: error.message,
           variant: "destructive",
         });
-      } else {
+      } else if (data?.user) {
         toast({
           title: "Success",
-          description: "Please check your email to confirm your account",
+          description: "Account created successfully! Please check your email to confirm your account.",
         });
         navigate('/login');
       }
