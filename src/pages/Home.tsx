@@ -5,8 +5,6 @@ import { Menu, Bell, User, Plus, Camera, Image } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import TwinklingStars from '@/components/TwinklingStars';
 import Sidebar from '@/components/Sidebar';
-import DatabaseStatus from '@/components/DatabaseStatus';
-import DebugPanel from '@/components/DebugPanel';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -86,17 +84,6 @@ const Home = () => {
             </Button>
           </div>
         </header>
-
-
-        {/* Database Status */}
-        <div className="px-6 mb-4">
-          <DatabaseStatus />
-        </div>
-
-        {/* Debug Panel */}
-        <div className="px-6 mb-4">
-          <DebugPanel />
-        </div>
 
         {/* AI Chat Section */}
         <div className="px-6 mb-8">
