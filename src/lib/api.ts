@@ -62,10 +62,10 @@ export const categoriesApi = {
       console.error('Failed to fetch categories:', error)
       // Return default categories if database is not set up
       return [
-        { id: '1', name: 'Shirts', description: 'Tops and shirts', color: '#3B82F6', icon: '👔', created_at: new Date().toISOString() },
-        { id: '2', name: 'Trousers', description: 'Pants and jeans', color: '#10B981', icon: '👖', created_at: new Date().toISOString() },
-        { id: '3', name: 'Accessories', description: 'Jewelry and accessories', color: '#8B5CF6', icon: '👜', created_at: new Date().toISOString() },
-        { id: '4', name: 'Shoes', description: 'Footwear', color: '#F59E0B', icon: '👟', created_at: new Date().toISOString() },
+        { id: 'shirts', name: 'Shirts', description: 'Tops and shirts', color: '#3B82F6', icon: '👕', created_at: new Date().toISOString() },
+        { id: 'trousers', name: 'Trousers', description: 'Pants and jeans', color: '#10B981', icon: '👖', created_at: new Date().toISOString() },
+        { id: 'accessories', name: 'Accessories', description: 'Jewelry and accessories', color: '#8B5CF6', icon: '🎒', created_at: new Date().toISOString() },
+        { id: 'shoes', name: 'Shoes', description: 'Footwear', color: '#F59E0B', icon: '👟', created_at: new Date().toISOString() },
       ]
     }
   }

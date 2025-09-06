@@ -24,6 +24,14 @@ const Catalogue = () => {
   const [showAddDialog, setShowAddDialog] = useState(false);
   const [loading, setLoading] = useState(true);
 
+  // Default categories with proper styling
+  const defaultCategories = [
+    { id: 'shirts', name: 'Shirts', image: '/assets/shirts.png', color: 'bg-blue-100', icon: '👕' },
+    { id: 'trousers', name: 'Trousers', image: '/assets/trousers.png', color: 'bg-green-100', icon: '👖' },
+    { id: 'accessories', name: 'Accessories', image: '/assets/accessories.png', color: 'bg-purple-100', icon: '🎒' },
+    { id: 'shoes', name: 'Shoes', image: '/assets/shoes.png', color: 'bg-orange-100', icon: '👟' },
+  ];
+
   const suggestedEvents = [
     'Winter Outfits',
     'Beach Outfits', 
@@ -164,7 +172,7 @@ const Catalogue = () => {
         {/* Categories Grid */}
         <div className="px-6 mb-8">
           <div className="grid grid-cols-2 gap-4">
-            {categories.map((category) => (
+            {defaultCategories.map((category) => (
               <button
                 key={category.id}
                 onClick={() => handleCategoryClick(category.id)}
@@ -175,8 +183,12 @@ const Catalogue = () => {
                 }`}
               >
                 <div className="mb-3 flex justify-center">
-                  <div className="w-[88px] h-[88px] flex items-center justify-center text-4xl">
-                    {category.icon || '📦'}
+                  <div className="w-[88px] h-[88px] flex items-center justify-center">
+                    <img 
+                      src={category.image} 
+                      alt={category.name}
+                      className="w-full h-full object-contain"
+                    />
                   </div>
                 </div>
                 <h3 className="font-semibold">{category.name}</h3>
@@ -253,7 +265,14 @@ const Catalogue = () => {
           <AddItemDialog
             open={showAddDialog}
             onOpenChange={setShowAddDialog}
-            categories={categories}
+            categories={defaultCategories.map(cat => ({
+              id: cat.id,
+              name: cat.name,
+              description: '',
+              color: cat.color,
+              icon: cat.icon,
+              created_at: new Date().toISOString()
+            }))}
             onItemAdded={handleItemAdded}
             userId={user.id}
           />

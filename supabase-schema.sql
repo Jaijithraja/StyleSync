@@ -90,15 +90,11 @@ CREATE TABLE public.board_items (
 );
 
 -- Insert default categories
-INSERT INTO public.categories (name, description, color, icon) VALUES
-('Shirts', 'Tops, blouses, and shirts', '#3B82F6', '👔'),
-('Trousers', 'Pants, jeans, and trousers', '#10B981', '👖'),
-('Accessories', 'Jewelry, bags, and accessories', '#8B5CF6', '👜'),
-('Shoes', 'Footwear of all types', '#F59E0B', '👟'),
-('Dresses', 'Dresses and one-piece outfits', '#EC4899', '👗'),
-('Jackets', 'Coats, jackets, and outerwear', '#6B7280', '🧥'),
-('Skirts', 'Skirts and shorts', '#F97316', '👗'),
-('Sweaters', 'Sweaters and cardigans', '#84CC16', '🧥');
+INSERT INTO public.categories (id, name, description, color, icon) VALUES
+('shirts', 'Shirts', 'Tops, blouses, and shirts', '#3B82F6', '👕'),
+('trousers', 'Trousers', 'Pants, jeans, and trousers', '#10B981', '👖'),
+('accessories', 'Accessories', 'Jewelry, bags, and accessories', '#8B5CF6', '🎒'),
+('shoes', 'Shoes', 'Footwear of all types', '#F59E0B', '👟');
 
 -- Row Level Security Policies
 
