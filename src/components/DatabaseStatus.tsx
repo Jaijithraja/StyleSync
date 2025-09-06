@@ -98,6 +98,14 @@ const DatabaseStatus = () => {
           )}
           <span>Storage: {status.storage?.error ? 'Error' : 'OK'}</span>
         </div>
+
+        {status.missingBuckets && status.missingBuckets.length > 0 && (
+          <div className="mt-2 p-2 bg-yellow-50 border border-yellow-200 rounded">
+            <p className="text-sm text-yellow-800">
+              <strong>Missing Storage Buckets:</strong> {status.missingBuckets.join(', ')}
+            </p>
+          </div>
+        )}
       </div>
 
       {hasErrors && (
@@ -112,7 +120,10 @@ const DatabaseStatus = () => {
               <li>Navigate to the SQL Editor</li>
               <li>Copy the entire content from <code>supabase-schema.sql</code></li>
               <li>Paste it into the SQL Editor and click "Run"</li>
-              <li>Create storage buckets: <code>avatars</code> and <code>items</code></li>
+              <li>Go to <strong>Storage</strong> in your Supabase dashboard</li>
+              <li>Create two new buckets: <code>avatars</code> and <code>items</code></li>
+              <li>Set both buckets to <strong>"Public"</strong></li>
+              <li>Refresh this page to check the status</li>
             </ol>
           </AlertDescription>
         </Alert>

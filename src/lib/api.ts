@@ -164,21 +164,32 @@ export const itemsApi = {
   },
 
   async uploadImage(itemId: string, file: File): Promise<string> {
-    const fileExt = file.name.split('.').pop()
-    const fileName = `${itemId}-${Date.now()}.${fileExt}`
-    const filePath = `items/${fileName}`
+    try {
+      const fileExt = file.name.split('.').pop()
+      const fileName = `${itemId}-${Date.now()}.${fileExt}`
+      const filePath = `items/${fileName}`
 
-    const { error: uploadError } = await supabase.storage
-      .from('items')
-      .upload(filePath, file)
+      console.log('Uploading image to storage bucket "items"...')
+      
+      const { error: uploadError } = await supabase.storage
+        .from('items')
+        .upload(filePath, file)
 
-    if (uploadError) throw uploadError
+      if (uploadError) {
+        console.error('Storage upload error:', uploadError)
+        throw new Error(`Storage upload failed: ${uploadError.message}`)
+      }
 
-    const { data } = supabase.storage
-      .from('items')
-      .getPublicUrl(filePath)
+      const { data } = supabase.storage
+        .from('items')
+        .getPublicUrl(filePath)
 
-    return data.publicUrl
+      console.log('Image uploaded successfully:', data.publicUrl)
+      return data.publicUrl
+    } catch (error) {
+      console.error('Image upload failed:', error)
+      throw new Error('Image upload failed. Please check if storage buckets are set up in Supabase.')
+    }
   }
 }
 

@@ -79,7 +79,17 @@ const AddItemDialog: React.FC<AddItemDialogProps> = ({
 
       // Upload image if provided
       if (imageFile) {
-        imageUrl = await itemsApi.uploadImage('temp', imageFile);
+        try {
+          imageUrl = await itemsApi.uploadImage('temp', imageFile);
+        } catch (error) {
+          console.error('Image upload failed, continuing without image:', error);
+          toast({
+            title: "Image Upload Failed",
+            description: "Item will be added without image. Please set up storage buckets in Supabase.",
+            variant: "destructive",
+          });
+          // Continue without image
+        }
       }
 
       // Create item

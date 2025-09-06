@@ -38,13 +38,22 @@ export const debugDatabase = async () => {
     const { data: bucketsData, error: bucketsError } = await supabase.storage.listBuckets()
     console.log('Storage buckets:', bucketsData, bucketsError)
     
+    // Test 6: Check if required buckets exist
+    const requiredBuckets = ['avatars', 'items']
+    const existingBuckets = bucketsData?.map(bucket => bucket.name) || []
+    const missingBuckets = requiredBuckets.filter(bucket => !existingBuckets.includes(bucket))
+    console.log('Required buckets:', requiredBuckets)
+    console.log('Existing buckets:', existingBuckets)
+    console.log('Missing buckets:', missingBuckets)
+    
     return {
       success: true,
       auth: { data: authData, error: authError },
       categories: { data: categoriesData, error: categoriesError },
       items: { data: itemsData, error: itemsError },
       users: { data: usersData, error: usersError },
-      storage: { data: bucketsData, error: bucketsError }
+      storage: { data: bucketsData, error: bucketsError },
+      missingBuckets: missingBuckets
     }
   } catch (error) {
     console.error('❌ Database debug failed:', error)
