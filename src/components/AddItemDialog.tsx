@@ -82,13 +82,14 @@ const AddItemDialog: React.FC<AddItemDialogProps> = ({
         try {
           imageUrl = await itemsApi.uploadImage('temp', imageFile);
         } catch (error) {
-          console.error('Image upload failed, continuing without image:', error);
+          console.error('Image upload failed, using local preview:', error);
+          // Use local preview as fallback
+          imageUrl = imagePreview || undefined;
           toast({
             title: "Image Upload Failed",
-            description: "Item will be added without image. Please set up storage buckets in Supabase.",
+            description: "Item will be added with local image preview. Set up storage buckets for permanent storage.",
             variant: "destructive",
           });
-          // Continue without image
         }
       }
 

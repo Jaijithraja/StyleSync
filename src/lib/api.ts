@@ -1,4 +1,6 @@
 import { supabase, type User, type Category, type Item, type Outfit, type Event, type Board, type BoardItem } from './supabase'
+import { mockCategories, mockItems, mockOutfits, mockEvents } from './mock-data'
+import { localStorage } from './local-storage'
 
 // User API
 export const userApi = {
@@ -60,13 +62,8 @@ export const categoriesApi = {
       return data || []
     } catch (error) {
       console.error('Failed to fetch categories:', error)
-      // Return default categories if database is not set up
-      return [
-        { id: 'shirts', name: 'Shirts', description: 'Tops and shirts', color: '#3B82F6', icon: '👕', created_at: new Date().toISOString() },
-        { id: 'trousers', name: 'Trousers', description: 'Pants and jeans', color: '#10B981', icon: '👖', created_at: new Date().toISOString() },
-        { id: 'accessories', name: 'Accessories', description: 'Jewelry and accessories', color: '#8B5CF6', icon: '🎒', created_at: new Date().toISOString() },
-        { id: 'shoes', name: 'Shoes', description: 'Footwear', color: '#F59E0B', icon: '👟', created_at: new Date().toISOString() },
-      ]
+      console.log('Using mock categories as fallback')
+      return mockCategories
     }
   }
 }
@@ -91,7 +88,9 @@ export const itemsApi = {
       return data || []
     } catch (error) {
       console.error('Failed to fetch items:', error)
-      return []
+      console.log('Using local storage items as fallback')
+      const localItems = localStorage.getItems()
+      return Array.isArray(localItems) && localItems.length > 0 ? localItems : mockItems
     }
   },
 
@@ -126,17 +125,30 @@ export const itemsApi = {
   },
 
   async create(userId: string, item: Omit<Item, 'id' | 'user_id' | 'created_at' | 'updated_at'>): Promise<Item> {
-    const { data, error } = await supabase
-      .from('items')
-      .insert({ ...item, user_id: userId })
-      .select(`
-        *,
-        category:categories(*)
-      `)
-      .single()
-    
-    if (error) throw error
-    return data
+    try {
+      const { data, error } = await supabase
+        .from('items')
+        .insert({ ...item, user_id: userId })
+        .select(`
+          *,
+          category:categories(*)
+        `)
+        .single()
+      
+      if (error) throw error
+      return data
+    } catch (error) {
+      console.error('Failed to create item in database, using local storage:', error)
+      const newItem: Item = {
+        ...item,
+        id: `local-${Date.now()}`,
+        user_id: userId,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
+      }
+      localStorage.addItem(newItem)
+      return newItem
+    }
   },
 
   async update(id: string, updates: Partial<Item>): Promise<Item> {
@@ -196,14 +208,23 @@ export const itemsApi = {
 // Outfits API
 export const outfitsApi = {
   async getAll(userId: string): Promise<Outfit[]> {
-    const { data, error } = await supabase
-      .from('outfits')
-      .select('*')
-      .eq('user_id', userId)
-      .order('created_at', { ascending: false })
-    
-    if (error) throw error
-    return data
+    try {
+      const { data, error } = await supabase
+        .from('outfits')
+        .select('*')
+        .eq('user_id', userId)
+        .order('created_at', { ascending: false })
+      
+      if (error) {
+        console.error('Outfits API error:', error)
+        throw error
+      }
+      return data || []
+    } catch (error) {
+      console.error('Failed to fetch outfits:', error)
+      console.log('Using mock outfits as fallback')
+      return mockOutfits
+    }
   },
 
   async getStarred(userId: string): Promise<Outfit[]> {
@@ -279,8 +300,9 @@ export const outfitsApi = {
     
     // Select one random item from each category
     const selectedItems = Object.values(itemsByCategory).map(categoryItems => {
-      const randomIndex = Math.floor(Math.random() * categoryItems.length)
-      return categoryItems[randomIndex]
+      const items = Array.isArray(categoryItems) ? categoryItems : []
+      const randomIndex = Math.floor(Math.random() * items.length)
+      return items[randomIndex]
     })
     
     // Create outfit
@@ -298,17 +320,26 @@ export const outfitsApi = {
 // Events API
 export const eventsApi = {
   async getAll(userId: string): Promise<Event[]> {
-    const { data, error } = await supabase
-      .from('events')
-      .select(`
-        *,
-        outfit:outfits(*)
-      `)
-      .eq('user_id', userId)
-      .order('date', { ascending: true })
-    
-    if (error) throw error
-    return data
+    try {
+      const { data, error } = await supabase
+        .from('events')
+        .select(`
+          *,
+          outfit:outfits(*)
+        `)
+        .eq('user_id', userId)
+        .order('date', { ascending: true })
+      
+      if (error) {
+        console.error('Events API error:', error)
+        throw error
+      }
+      return data || []
+    } catch (error) {
+      console.error('Failed to fetch events:', error)
+      console.log('Using mock events as fallback')
+      return mockEvents
+    }
   },
 
   async getUpcoming(userId: string, limit: number = 10): Promise<Event[]> {

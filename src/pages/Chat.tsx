@@ -38,11 +38,24 @@ const Chat = () => {
     setMessages(prev => [...prev, newMessage]);
     setInputText('');
 
-    // Simulate AI response
+    // Simulate AI response with more variety
     setTimeout(() => {
+      const responses = [
+        "That sounds great! I can help you with that. What's your style preference for today?",
+        "I love that idea! Let me suggest some outfit combinations for you.",
+        "Perfect! Based on your wardrobe, I think you'd look amazing in a casual-chic style.",
+        "Great choice! I can help you create the perfect look. What's the occasion?",
+        "I'm here to help you look fabulous! What kind of outfit are you thinking about?",
+        "That's a wonderful idea! Let me help you put together something stylish.",
+        "I love your style sense! Tell me more about what you're looking for.",
+        "Excellent! I can definitely help you with that. What's your favorite color today?"
+      ];
+      
+      const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+      
       const aiResponse: Message = {
         id: (Date.now() + 1).toString(),
-        text: 'That sounds great! I can help you with that. What\'s your style preference for today?',
+        text: randomResponse,
         sender: 'ai',
         timestamp: new Date(),
       };
