@@ -1,6 +1,3 @@
--- Enable Row Level Security
-ALTER DATABASE postgres SET "app.jwt_secret" TO 'your-jwt-secret';
-
 -- Create custom types
 CREATE TYPE weather_condition AS ENUM ('sunny', 'cloudy', 'rainy', 'snowy', 'windy');
 CREATE TYPE occasion_type AS ENUM ('casual', 'business', 'formal', 'party', 'date', 'gym', 'beach', 'winter');
