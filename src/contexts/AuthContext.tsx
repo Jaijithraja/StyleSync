@@ -81,23 +81,39 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   }
 
   const signInWithGoogle = async () => {
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: {
-        redirectTo: `${window.location.origin}/home`,
-      },
-    })
-    return { error }
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: `${window.location.origin}/home`,
+        },
+      })
+      return { error }
+    } catch (error) {
+      return { 
+        error: { 
+          message: 'Google sign-in is not enabled. Please use email/password instead.' 
+        } 
+      }
+    }
   }
 
   const signInWithApple = async () => {
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: 'apple',
-      options: {
-        redirectTo: `${window.location.origin}/home`,
-      },
-    })
-    return { error }
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'apple',
+        options: {
+          redirectTo: `${window.location.origin}/home`,
+        },
+      })
+      return { error }
+    } catch (error) {
+      return { 
+        error: { 
+          message: 'Apple sign-in is not enabled. Please use email/password instead.' 
+        } 
+      }
+    }
   }
 
   const value = {

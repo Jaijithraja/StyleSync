@@ -55,8 +55,8 @@ const Login = () => {
       const { error } = await signInWithGoogle();
       if (error) {
         toast({
-          title: "Google Sign In Failed",
-          description: error.message,
+          title: "Google Sign In Not Available",
+          description: "Please use email/password to sign in. Google sign-in can be enabled in Supabase settings.",
           variant: "destructive",
         });
       }
@@ -77,8 +77,8 @@ const Login = () => {
       const { error } = await signInWithApple();
       if (error) {
         toast({
-          title: "Apple Sign In Failed",
-          description: error.message,
+          title: "Apple Sign In Not Available",
+          description: "Please use email/password to sign in. Apple sign-in can be enabled in Supabase settings.",
           variant: "destructive",
         });
       }
