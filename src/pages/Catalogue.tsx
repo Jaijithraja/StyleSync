@@ -23,6 +23,12 @@ const Catalogue = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [showAddDialog, setShowAddDialog] = useState(false);
   const [loading, setLoading] = useState(true);
+  const categories = [
+    { name: 'Shirts', image: '/assets/shirts.png', color: 'bg-blue-100' },
+    { name: 'Trousers', image: '/assets/trousers.png', color: 'bg-green-100' },
+    { name: 'Accessories', image: '/assets/accessories.png', color: 'bg-purple-100' },
+    { name: 'Shoes', image: '/assets/shoes.png', color: 'bg-orange-100' },
+  ];
 
   const suggestedEvents = [
     'Winter Outfits',
