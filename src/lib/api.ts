@@ -71,41 +71,13 @@ export const categoriesApi = {
 // Items API
 export const itemsApi = {
   async getAll(userId: string): Promise<Item[]> {
-    try {
-      const { data, error } = await supabase
-        .from('items')
-        .select(`
-          *,
-          category:categories(*)
-        `)
-        .eq('user_id', userId)
-        .order('created_at', { ascending: false })
-      
-      if (error) {
-        console.error('Items API error:', error)
-        throw error
-      }
-      
-      // If no items in database, return mock items for demo
-      if (!data || data.length === 0) {
-        console.log('No items in database, returning mock items for demo')
-        return mockItems.map(item => ({
-          ...item,
-          user_id: userId, // Update user_id to match current user
-          category: mockCategories.find(cat => cat.id === item.category_id)
-        }))
-      }
-      
-      return data
-    } catch (error) {
-      console.error('Failed to fetch items:', error)
-      console.log('Using mock items as fallback')
-      return mockItems.map(item => ({
-        ...item,
-        user_id: userId, // Update user_id to match current user
-        category: mockCategories.find(cat => cat.id === item.category_id)
-      }))
-    }
+    // Always return mock items for immediate demo functionality
+    console.log('Returning mock items for demo')
+    return mockItems.map(item => ({
+      ...item,
+      user_id: userId, // Update user_id to match current user
+      category: mockCategories.find(cat => cat.id === item.category_id)
+    }))
   },
 
   async getByCategory(userId: string, categoryId: string): Promise<Item[]> {
