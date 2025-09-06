@@ -1,0 +1,168 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    /* StyleSync Theme - Beige to Gray with Red Accents */
+    --background: 35 20% 92%;
+    --foreground: 0 0% 15%;
+
+    --card: 35 15% 88%;
+    --card-foreground: 0 0% 15%;
+
+    --popover: 35 15% 88%;
+    --popover-foreground: 0 0% 15%;
+
+    --primary: 0 60% 45%;
+    --primary-foreground: 35 20% 92%;
+
+    --secondary: 30 15% 85%;
+    --secondary-foreground: 0 0% 15%;
+
+    --muted: 25 10% 80%;
+    --muted-foreground: 0 0% 45%;
+
+    --accent: 0 50% 55%;
+    --accent-foreground: 35 20% 92%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 35 20% 92%;
+
+    --border: 25 20% 75%;
+    --input: 25 20% 75%;
+    --ring: 0 60% 45%;
+
+    --radius: 1rem;
+    
+    /* Custom StyleSync colors */
+  /* gradient hex -> converted to HSL approximations for existing variables */
+  --gradient-start: 30 20% 90%; /* fallback HSL for #E9E3D8 */
+  --gradient-end: 30 18% 76%; /* fallback HSL for #C0B5A4 */
+    --maroon: 0 60% 45%;
+    --maroon-light: 0 50% 65%;
+    --beige: 35 20% 92%;
+    --chat-user: 0 50% 55%;
+    --chat-ai: 25 10% 80%;
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+  @apply bg-background text-foreground;
+  /* Global gradient background per request: #E9E3D8 @14% -> #C0B5A4 @44% */
+  background-image: linear-gradient(180deg, #E9E3D8 14%, #C0B5A4 44%);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+}
+
+/* Custom animations and utilities */
+@layer utilities {
+  .animate-fade-in {
+    animation: fadeIn 0.6s ease-out forwards;
+  }
+  
+  .animate-slide-up {
+    animation: slideUp 0.4s ease-out forwards;
+  }
+  
+  .hover-lift {
+    transition: transform 0.2s ease;
+  }
+  
+  .hover-lift:hover {
+    transform: translateY(-2px);
+  }
+}
+
+  .bg-box-gradient {
+    /* 47% lighter than #D9D9D9 (blended toward white) */
+    background-color: #EBEBEB;
+  }
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
