@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import TwinklingStars from '@/components/TwinklingStars';
 import { testSupabaseConnection } from '@/lib/test-connection'
 import { debugDatabase } from '@/lib/debug-database';
+import { testStorageConnection } from '@/lib/test-storage';
 
 const Splash = () => {
   const navigate = useNavigate();
@@ -16,6 +17,7 @@ const Splash = () => {
     // Test Supabase connection and debug database
     testSupabaseConnection();
     debugDatabase();
+    testStorageConnection();
 
     const navigationTimer = setTimeout(() => {
       navigate('/login');

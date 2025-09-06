@@ -36,7 +36,7 @@ export const debugDatabase = async () => {
     // Test 5: Check storage buckets
     console.log('5. Testing storage buckets...')
     const { data: bucketsData, error: bucketsError } = await supabase.storage.listBuckets()
-    console.log('Storage buckets:', bucketsData, bucketsError)
+    console.log('Storage buckets response:', { data: bucketsData, error: bucketsError })
     
     // Test 6: Check if required buckets exist
     const requiredBuckets = ['avatars', 'items']
@@ -45,6 +45,21 @@ export const debugDatabase = async () => {
     console.log('Required buckets:', requiredBuckets)
     console.log('Existing buckets:', existingBuckets)
     console.log('Missing buckets:', missingBuckets)
+    
+    // Test 7: Try to access each bucket specifically
+    if (bucketsData && bucketsData.length > 0) {
+      for (const bucket of bucketsData) {
+        console.log(`Testing bucket "${bucket.name}":`, bucket)
+        try {
+          const { data: files, error: filesError } = await supabase.storage
+            .from(bucket.name)
+            .list('', { limit: 1 })
+          console.log(`Bucket "${bucket.name}" access test:`, { files, error: filesError })
+        } catch (error) {
+          console.error(`Error accessing bucket "${bucket.name}":`, error)
+        }
+      }
+    }
     
     return {
       success: true,

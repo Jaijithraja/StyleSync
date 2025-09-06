@@ -177,22 +177,30 @@ export const itemsApi = {
 
   async uploadImage(itemId: string, file: File): Promise<string> {
     try {
+      console.log('Starting image upload process...')
+      
       // First, check if storage buckets exist
       const { data: buckets, error: bucketsError } = await supabase.storage.listBuckets()
       
+      console.log('Storage buckets check:', { buckets, error: bucketsError })
+      
       if (bucketsError) {
         console.error('Failed to check storage buckets:', bucketsError)
-        throw new Error('Storage not available')
+        throw new Error(`Storage check failed: ${bucketsError.message}`)
       }
 
       const hasItemsBucket = buckets?.some(bucket => bucket.name === 'items')
+      console.log('Has items bucket:', hasItemsBucket)
       
       if (!hasItemsBucket) {
-        console.log('Items bucket not found, using local storage fallback')
+        console.log('Items bucket not found, using base64 fallback')
         // Convert file to base64 for local storage
         return new Promise((resolve, reject) => {
           const reader = new FileReader()
-          reader.onload = () => resolve(reader.result as string)
+          reader.onload = () => {
+            console.log('Image converted to base64 successfully')
+            resolve(reader.result as string)
+          }
           reader.onerror = () => reject(new Error('Failed to read file'))
           reader.readAsDataURL(file)
         })
@@ -202,7 +210,7 @@ export const itemsApi = {
       const fileName = `${itemId}-${Date.now()}.${fileExt}`
       const filePath = `items/${fileName}`
 
-      console.log('Uploading image to storage bucket "items"...')
+      console.log('Uploading image to Supabase storage...', { fileName, filePath })
       
       const { error: uploadError } = await supabase.storage
         .from('items')
@@ -217,14 +225,17 @@ export const itemsApi = {
         .from('items')
         .getPublicUrl(filePath)
 
-      console.log('Image uploaded successfully:', data.publicUrl)
+      console.log('Image uploaded successfully to Supabase:', data.publicUrl)
       return data.publicUrl
     } catch (error) {
       console.error('Image upload failed, using base64 fallback:', error)
       // Fallback to base64 encoding
       return new Promise((resolve, reject) => {
         const reader = new FileReader()
-        reader.onload = () => resolve(reader.result as string)
+        reader.onload = () => {
+          console.log('Using base64 fallback for image')
+          resolve(reader.result as string)
+        }
         reader.onerror = () => reject(new Error('Failed to read file'))
         reader.readAsDataURL(file)
       })
