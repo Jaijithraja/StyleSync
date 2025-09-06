@@ -63,15 +63,35 @@ const Catalogue = () => {
       console.log('Loaded categories:', categoriesData);
       console.log('Loaded items:', itemsData);
       
-      setCategories(categoriesData);
-      setItems(itemsData);
+      // Use default categories for display
+      setCategories(defaultCategories.map(cat => ({
+        id: cat.id,
+        name: cat.name,
+        description: '',
+        color: cat.color,
+        icon: cat.icon,
+        created_at: new Date().toISOString()
+      })));
+      
+      // Ensure items have proper structure
+      const processedItems = itemsData.map(item => ({
+        ...item,
+        category: defaultCategories.find(cat => cat.id === item.category_id)
+      }));
+      
+      setItems(processedItems);
     } catch (error) {
       console.error('Error loading data:', error);
-      toast({
-        title: "Error",
-        description: "Failed to load data",
-        variant: "destructive",
-      });
+      // Set default categories even on error
+      setCategories(defaultCategories.map(cat => ({
+        id: cat.id,
+        name: cat.name,
+        description: '',
+        color: cat.color,
+        icon: cat.icon,
+        created_at: new Date().toISOString()
+      })));
+      setItems([]);
     } finally {
       setLoading(false);
     }

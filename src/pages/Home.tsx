@@ -45,7 +45,15 @@ const Home = () => {
   const handleCameraOption = (option: 'camera' | 'gallery') => {
     console.log(`Opening ${option}`);
     setShowCameraOptions(false);
-    // In a real app, this would open camera/gallery
+    
+    if (option === 'gallery') {
+      // Navigate to catalogue to add items
+      navigate('/catalogue');
+    } else {
+      // For camera, also navigate to catalogue for now
+      // In a real app, this would open the camera
+      navigate('/catalogue');
+    }
   };
 
   return (

@@ -39,25 +39,55 @@ const Randomise = () => {
 
     try {
       setLoading(true);
-      const outfit = await outfitsApi.generateRandom(user.id);
-      setCurrentOutfit(outfit);
       
-      // Load outfit items
-      if (outfit.items && outfit.items.length > 0) {
-        const items = await Promise.all(
-          outfit.items.map(async (itemId) => {
-            try {
-              const item = await itemsApi.getAll(user.id);
-              return item.find(i => i.id === itemId);
-            } catch (error) {
-              console.error('Failed to load item:', error);
-              return null;
-            }
-          })
-        );
-        setOutfitItems(items.filter(Boolean) as (Item & { category?: Category })[]);
+      // First, get all available items
+      const allItems = await itemsApi.getAll(user.id);
+      console.log('Available items for random outfit:', allItems);
+      
+      if (!allItems || allItems.length === 0) {
+        setCurrentOutfit(null);
+        setOutfitItems([]);
+        return;
       }
+      
+      // Group items by category
+      const itemsByCategory = allItems.reduce((acc, item) => {
+        const categoryId = item.category_id || 'uncategorized';
+        if (!acc[categoryId]) acc[categoryId] = [];
+        acc[categoryId].push(item);
+        return acc;
+      }, {} as Record<string, Item[]>);
+      
+      // Select one random item from each category
+      const selectedItems = Object.values(itemsByCategory).map(categoryItems => {
+        const items = Array.isArray(categoryItems) ? categoryItems : [];
+        const randomIndex = Math.floor(Math.random() * items.length);
+        return items[randomIndex];
+      });
+      
+      // Create a mock outfit object
+      const mockOutfit: Outfit = {
+        id: `random-${Date.now()}`,
+        user_id: user.id,
+        name: `Random Outfit ${new Date().toLocaleDateString()}`,
+        description: 'AI-generated random outfit',
+        items: selectedItems.map(item => item.id),
+        image_url: null,
+        is_starred: false,
+        weather_condition: 'sunny',
+        occasion: 'casual',
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
+      };
+      
+      setCurrentOutfit(mockOutfit);
+      setOutfitItems(selectedItems.map(item => ({
+        ...item,
+        category: categories.find(cat => cat.id === item.category_id)
+      })));
+      
     } catch (error) {
+      console.error('Error generating random outfit:', error);
       toast({
         title: "Error",
         description: "Failed to generate outfit. Make sure you have items in your wardrobe.",
@@ -75,20 +105,11 @@ const Randomise = () => {
     
     setTimeout(async () => {
       if (direction === 'right') {
-        // Add to starred
-        try {
-          await outfitsApi.update(currentOutfit.id, { is_starred: true });
-          toast({
-            title: "Success",
-            description: "Outfit added to starred!",
-          });
-        } catch (error) {
-          toast({
-            title: "Error",
-            description: "Failed to star outfit",
-            variant: "destructive",
-          });
-        }
+        // For mock outfits, just show success message
+        toast({
+          title: "Success",
+          description: "Outfit starred! (Note: This is a demo - outfit not saved to database)",
+        });
       }
       
       // Generate next outfit

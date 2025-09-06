@@ -36,6 +36,51 @@ export const mockItems = [
     created_at: new Date().toISOString(),
     updated_at: new Date().toISOString(),
     category: mockCategories[1]
+  },
+  {
+    id: '3',
+    user_id: 'demo-user',
+    category_id: 'shirts',
+    name: 'White Button-Up',
+    description: 'Crisp white dress shirt',
+    image_url: '/assets/shirts.png',
+    color: 'White',
+    brand: 'Fashion Co',
+    size: 'L',
+    is_favorite: false,
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+    category: mockCategories[0]
+  },
+  {
+    id: '4',
+    user_id: 'demo-user',
+    category_id: 'shoes',
+    name: 'White Sneakers',
+    description: 'Clean white athletic shoes',
+    image_url: '/assets/shoes.png',
+    color: 'White',
+    brand: 'Sneaker Brand',
+    size: '10',
+    is_favorite: false,
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+    category: mockCategories[3]
+  },
+  {
+    id: '5',
+    user_id: 'demo-user',
+    category_id: 'accessories',
+    name: 'Leather Watch',
+    description: 'Classic leather strap watch',
+    image_url: '/assets/accessories.png',
+    color: 'Brown',
+    brand: 'Time Co',
+    size: 'One Size',
+    is_favorite: true,
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+    category: mockCategories[2]
   }
 ]
 

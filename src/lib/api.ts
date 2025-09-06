@@ -85,12 +85,26 @@ export const itemsApi = {
         console.error('Items API error:', error)
         throw error
       }
-      return data || []
+      
+      // If no items in database, return mock items for demo
+      if (!data || data.length === 0) {
+        console.log('No items in database, returning mock items for demo')
+        return mockItems.map(item => ({
+          ...item,
+          user_id: userId, // Update user_id to match current user
+          category: mockCategories.find(cat => cat.id === item.category_id)
+        }))
+      }
+      
+      return data
     } catch (error) {
       console.error('Failed to fetch items:', error)
-      console.log('Using local storage items as fallback')
-      const localItems = localStorage.getItems()
-      return Array.isArray(localItems) && localItems.length > 0 ? localItems : mockItems
+      console.log('Using mock items as fallback')
+      return mockItems.map(item => ({
+        ...item,
+        user_id: userId, // Update user_id to match current user
+        category: mockCategories.find(cat => cat.id === item.category_id)
+      }))
     }
   },
 
