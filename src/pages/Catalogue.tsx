@@ -53,14 +53,20 @@ const Catalogue = () => {
     
     try {
       setLoading(true);
+      console.log('Loading catalogue data...');
+      
       const [categoriesData, itemsData] = await Promise.all([
         categoriesApi.getAll(),
         itemsApi.getAll(user.id),
       ]);
       
+      console.log('Loaded categories:', categoriesData);
+      console.log('Loaded items:', itemsData);
+      
       setCategories(categoriesData);
       setItems(itemsData);
     } catch (error) {
+      console.error('Error loading data:', error);
       toast({
         title: "Error",
         description: "Failed to load data",

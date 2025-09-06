@@ -46,6 +46,11 @@ export const debugDatabase = async () => {
     console.log('Existing buckets:', existingBuckets)
     console.log('Missing buckets:', missingBuckets)
     
+    // Debug: Check if buckets exist but with different names
+    if (bucketsData && bucketsData.length > 0) {
+      console.log('All available buckets:', bucketsData.map(b => ({ name: b.name, id: b.id, public: b.public })))
+    }
+    
     // Test 7: Try to access each bucket specifically
     if (bucketsData && bucketsData.length > 0) {
       for (const bucket of bucketsData) {

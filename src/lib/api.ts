@@ -191,6 +191,7 @@ export const itemsApi = {
 
       const hasItemsBucket = buckets?.some(bucket => bucket.name === 'items')
       console.log('Has items bucket:', hasItemsBucket)
+      console.log('Available buckets:', buckets?.map(b => b.name))
       
       if (!hasItemsBucket) {
         console.log('Items bucket not found, using base64 fallback')
